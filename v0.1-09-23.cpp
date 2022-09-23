@@ -97,8 +97,6 @@ void PazymiaiRanka(Studentas& studentas) {
     cin.ignore(10000, '\n');
     cout << "Egzamino ivertinimas - ";
     cin >> studentas.egzaminas;
-    if (studentas.egzaminas != (1,2,3,4,5,6,7,8,9,10)) {
-        cout << "jusu ivestis neteisinga, prasome perskaityti instrukcija dar karta ir bandyti vel - ";
     }
 }
 
