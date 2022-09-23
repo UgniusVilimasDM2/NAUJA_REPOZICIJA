@@ -1,0 +1,192 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <algorithm>
+#include <random>
+
+using std::cout;
+using std::string;
+using std::cin;
+using std::vector;
+using std::endl;
+using std::setw;
+using std::setprecision;
+using std::left;
+using std::fixed;
+using std::sort;
+
+
+struct Studentas {
+    string vardas, pavarde;
+    int ndSkaicius = 0;
+    int* namuDarbai = new int[ndSkaicius];
+    double namuDarbuSuma = 0;
+    int egzaminas;
+    double galutinis;
+};
+
+void Duomenys(Studentas& studentas);
+void AsitiktinisPazymiuSuvedimas(Studentas& studentas);
+void PazymiuSuvedimasRanka(Studentas& studentas);
+double NamuDarbuVidurkioSkaiciavimas(const Studentas& studentas);
+double NamuDarbuMedianosSkaiciavimas(const Studentas& studentas);
+double Galutinis(const Studentas& studentas);
+void Spausdinimas(int studentuSkaicius, Studentas studentai[]);
+
+Studentas* DinaminioMasyvoGeneravimas(Studentas* studentai, int dydis)
+{
+    int naujasDydis = dydis * 2;
+    Studentas* studentaiNaujas = new Studentas[naujasDydis];
+    for (int i = 0; i < dydis; i++)
+    {
+        studentaiNaujas[i] = studentai[i];
+    }
+    for (int i = 0; i < dydis; i++)
+    {
+        studentaiNaujas[dydis + 1] = studentai[i];
+    }
+    delete[] studentai;
+    return studentaiNaujas;
+}
+
+int* NamuDarbuMasyvoGeneravimas(int* namuDarbai, int dydis)
+{
+    int naujasDydis = dydis * 2;
+    int* namuDarbaiNaujas = new int[naujasDydis];
+    for (int i = 0; i < dydis; i++)
+    {
+        namuDarbaiNaujas[i] = namuDarbai[i];
+    }
+    for (int i = 0; i < dydis; i++)
+    {
+        namuDarbaiNaujas[dydis + 1] = namuDarbai[i];
+    }
+    delete[] namuDarbai;
+    return namuDarbaiNaujas;
+}
+
+int main() {
+    int studSkaicius;
+    cout << "Studentu skaicius - ";
+    cin >> studSkaicius;
+    Studentas* studentai = new Studentas[studSkaicius];
+    studentai = DinaminioMasyvoGeneravimas(studentai, studSkaicius);
+    for (int i = 0; i < studSkaicius; i++) {
+        Duomenys(studentai[i]);
+        studentai[i].galutinis = Galutinis(studentai[i]);
+    }
+    Spausdinimas(studSkaicius, studentai);
+    delete[] studentai;
+    return 0;
+}
+
+void Duomenys(Studentas& studentas) {
+    cout << "Vardas - ";
+    cin >> studentas.vardas;
+    cout << "pavarde - ";
+    cin >> studentas.pavarde;
+    char pasirinkimas;
+    cout << "Jeigu pazymius norite vesti ranka, iveskite 'R', o jeigu norite atsitiktiniu pazymiu,"
+        " iveskite 'A' - ";
+
+    while (true) {
+        cin >> pasirinkimas;
+        if (pasirinkimas != 'A' && pasirinkimas != 'R') {
+            cout << "jusu ivestis neteisinga, prasome perskaityti instrukcija dar karta ir bandyti vel - ";
+        }
+        else break;
+    }
+
+    if (pasirinkimas == 'A') {
+        AsitiktinisPazymiuSuvedimas(studentas);
+    }
+    else if (pasirinkimas == 'R') {
+        PazymiuSuvedimasRanka(studentas);
+    }
+    delete[] studentas.namuDarbai;
+}
+
+void PazymiuSuvedimasRanka(Studentas& studentas) {
+    cout << "Iveskite Namu darbu rezultatus, pabaige juos rasyti iveskite skaiciu 0 ir spauskite enter - ";
+    while (cin >> studentas.namuDarbai[studentas.ndSkaicius]) {
+        if (studentas.namuDarbai[studentas.ndSkaicius] != 0) {
+            studentas.namuDarbuSuma = studentas.namuDarbuSuma + studentas.namuDarbai[studentas.ndSkaicius];
+            ++studentas.ndSkaicius;
+            studentas.namuDarbai = NamuDarbuMasyvoGeneravimas(studentas.namuDarbai, studentas.ndSkaicius);
+        }
+        else break;
+    }
+    cout << "Egzamino ivertinimas - ";
+    cin >> studentas.egzaminas;
+}
+
+void AsitiktinisPazymiuSuvedimas(Studentas& studentas) {
+    srand(time(NULL));
+    cout << "irasykite kiek noretumet atsitiktiniu pazymiu - ";
+    cin >> studentas.ndSkaicius;
+    studentas.namuDarbai = NamuDarbuMasyvoGeneravimas(studentas.namuDarbai, studentas.ndSkaicius);
+    cout << "kompiuterio parinkti atsitiktiniai namu darbai -  ";
+    for (int i = 0; i < studentas.ndSkaicius; i++) {
+        studentas.namuDarbai[i] = rand() % 10 + 1;
+        studentas.namuDarbuSuma = studentas.namuDarbuSuma + studentas.namuDarbai[i];
+        cout << studentas.namuDarbai[i] << " ";
+    }
+    cout << endl;
+    studentas.egzaminas = rand() % 10 + 1;
+    cout << "Egzamino ivertinimas - " << studentas.egzaminas << endl;
+}
+
+
+double NamuDarbuVidurkioSkaiciavimas(const Studentas& studentas) {
+    return studentas.namuDarbuSuma / studentas.ndSkaicius;
+}
+
+double NamuDarbuMedianosSkaiciavimas(const Studentas& studentas) {
+    double mediana;
+    sort(studentas.namuDarbai, studentas.namuDarbai + studentas.ndSkaicius);
+    int vidurinisElementas = studentas.ndSkaicius / 2;
+    if (studentas.ndSkaicius % 2 == 0) {
+        mediana = (studentas.namuDarbai[vidurinisElementas - 1] + studentas.namuDarbai[vidurinisElementas]) / 2.;
+    }
+    else {
+        mediana = studentas.namuDarbai[(studentas.ndSkaicius + 1) / 2 - 1];
+    }
+    return mediana;
+}
+
+double Galutinis(const Studentas& studentas) {
+    char skaiciavimoBudas;
+    double vidurkis = NamuDarbuVidurkioSkaiciavimas(studentas);
+    double mediana = NamuDarbuMedianosSkaiciavimas(studentas);
+    cout << "iveskite atitinkamai 'V'(vidurkis) arba 'M'(mediana) pagal tai kaip norite"
+        " kad butu suskaiciuotas galutinis balas - ";
+    double galutinis;
+
+    while (true) {
+        cin >> skaiciavimoBudas;
+        if (skaiciavimoBudas != 'V' && skaiciavimoBudas != 'M') {
+            cout << "Nera tokio pasirinkimo, iveskite is naujo - ";
+        }
+        else break;
+    }
+
+    if (skaiciavimoBudas == 'V') {
+        galutinis = vidurkis * 0.4 + studentas.egzaminas * 0.6;
+    }
+    else if (skaiciavimoBudas == 'M') {
+        galutinis = mediana * 0.4 + studentas.egzaminas * 0.6;
+    }
+    return galutinis;
+}
+
+void Spausdinimas(int studentuSkaicius, Studentas studentai[]) {
+    cout << setw(15) << left << "vardas" << setw(25) << left << "Pavarde"
+        << setw(15) << left << "Galutinis balas" << endl;
+    cout << "------------------------------------------------------------" << endl;
+
+    for (int i = 0; i < studentuSkaicius; i++) {
+        cout << fixed;
+        cout << setw(15) << left << studentai[i].vardas << setw(25) << left << studentai[i].pavarde <<
+            setw(15) << left << setprecision(2) << studentai[i].galutinis << endl;
+    }
+}
