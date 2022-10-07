@@ -10,6 +10,7 @@
 
 using namespace std;
 ifstream fd("/Users/kaktu/Desktop/Objektinis programavimas/kursiokai.txt");
+//ifstream fd("/Users/kaktu/Desktop/Objektinis programavimas/kursiokai1000.txt");
 
 struct Studentas {
     string vardas, pavarde;
@@ -227,9 +228,9 @@ bool Lyginimas(const Studentas& pirmas, const Studentas& antras) {
 
 void SpausdinimasIRezultatuFaila(const vector<Studentas>& studentai) {
     ofstream fr("/Users/kaktu/Desktop/Objektinis programavimas/kursiokai_rez.txt");
-    fr << "Vardas          " << "Pavarde               " << "Galutinis(Med) " << "Galutinis(Vid)" << endl;
+    fr << "Vardas          " << "         Pavarde      " << "Galutinis(Med) " << "Galutinis(Vid)" << endl;
     for (const Studentas& st : studentai) {
-        fr << st.vardas << " " << st.pavarde << " " << setprecision(3) << st.galutinisMediana
-            << "            " << setprecision(3) << st.galutinisVidurkis << endl;
+        fr << st.vardas << " " << st.pavarde << " " << fixed << setprecision(2) << st.galutinisMediana
+            << "            " << fixed << setprecision(2) << st.galutinisVidurkis << endl;
     }
 }
