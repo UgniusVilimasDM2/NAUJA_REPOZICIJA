@@ -23,16 +23,16 @@ struct Studentas {
 };
 
 void DuomenuIvedimasIrSaugojimas(vector<Studentas> studentai, int& studentuSkaicius);
-void StudentoDuomenuSuvedimasRanka(Studentas& studentas);
+void DuomenuSuvedimas(Studentas& studentas);
 void NuskaitymasIsFailo(Studentas& studentas, int pazymiuSkaicius);
 double PazymiuSkaiciavimasFaile(string const& str);
-void PazymiuSuvedimasRanka(Studentas& studentas);
-void AsitiktinisPazymiuSuvedimas(Studentas& studentas);
-double NamuDarbuVidurkioSkaiciavimas(Studentas studentas);
-double NamuDarbuMedianosSkaiciavimas(Studentas studentas);
-double GalutinioSkaiciavimas(Studentas studentas);
+void PazymiaiRanka(Studentas& studentas);
+void PazymiaiAtsitiktinai(Studentas& studentas);
+double Vidurkis(Studentas studentas);
+double Mediana(Studentas studentas);
+double Galutinis(Studentas studentas);
 void SpausdinimasIKonsole(Studentas studentas);
-bool LyginimoOperacija(const Studentas& pirmas, const Studentas& antras);
+bool Lyginimas(const Studentas& pirmas, const Studentas& antras);
 void SpausdinimasIRezultatuFaila(const vector<Studentas>& studentai);
 
 int main() {
@@ -60,8 +60,8 @@ void DuomenuIvedimasIrSaugojimas(vector<Studentas> studentai, int& studentuSkaic
         cin >> studentuSkaicius;
         for (int i = 0; i < studentuSkaicius; i++) {
             Studentas laikinas;
-            StudentoDuomenuSuvedimasRanka(laikinas);
-            laikinas.galutinis = GalutinioSkaiciavimas(laikinas);
+            DuomenuSuvedimas(laikinas);
+            laikinas.galutinis = Galutinis(laikinas);
             studentai.push_back(laikinas);
             laikinas.namuDarbai.clear();
         }
@@ -77,18 +77,18 @@ void DuomenuIvedimasIrSaugojimas(vector<Studentas> studentai, int& studentuSkaic
         while (!fd.eof()) {
             Studentas laikinas;
             NuskaitymasIsFailo(laikinas, pazymiuSkaicius);
-            laikinas.galutinisVidurkis = 0.4 * NamuDarbuVidurkioSkaiciavimas(laikinas) + 0.6 * laikinas.egzaminas;
-            laikinas.galutinisMediana = 0.4 * NamuDarbuMedianosSkaiciavimas(laikinas) + 0.6 * laikinas.egzaminas;
+            laikinas.galutinisVidurkis = 0.4 * Vidurkis(laikinas) + 0.6 * laikinas.egzaminas;
+            laikinas.galutinisMediana = 0.4 * Mediana(laikinas) + 0.6 * laikinas.egzaminas;
             studentai.push_back(laikinas);
             ++studentuSkaicius;
         }
-        sort(studentai.begin(), studentai.end(), LyginimoOperacija);
+        sort(studentai.begin(), studentai.end(), Lyginimas);
         SpausdinimasIRezultatuFaila(studentai);
 
     }
 }
 
-void StudentoDuomenuSuvedimasRanka(Studentas& studentas) {
+void DuomenuSuvedimas(Studentas& studentas) {
     cout << "Vardas - ";
     cin >> studentas.vardas;
     cout << "pavarde - ";
@@ -107,10 +107,10 @@ void StudentoDuomenuSuvedimasRanka(Studentas& studentas) {
     }
 
     if (pasirinkimas == 'A') {
-        AsitiktinisPazymiuSuvedimas(studentas);
+        PazymiaiAtsitiktinai(studentas);
     }
     else if (pasirinkimas == 'R') {
-        PazymiuSuvedimasRanka(studentas);
+        PazymiaiRanka(studentas);
     }
 }
 
@@ -138,7 +138,7 @@ double PazymiuSkaiciavimasFaile(string const& stream) {
     return distance(istream_iterator<string>(streaming), istream_iterator<string>()) - 3;
 }
 
-void PazymiuSuvedimasRanka(Studentas& studentas) {
+void PazymiaiRanka(Studentas& studentas) {
     cout << "Iveskite Namu darbu rezultatus, pabaige juos rasyti iveskite skaiciu 0 ir spauskite enter - ";
     int ivestis;
     while (cin >> ivestis) {
@@ -156,7 +156,7 @@ void PazymiuSuvedimasRanka(Studentas& studentas) {
     cin >> studentas.egzaminas;
 }
 
-void AsitiktinisPazymiuSuvedimas(Studentas& studentas) {
+void PazymiaiAtsitiktinai(Studentas& studentas) {
     srand(time(NULL));
     cout << "irasykite kiek noretumet atsitiktiniu pazymiu - ";
     cin >> studentas.ndSkaicius;
@@ -170,13 +170,13 @@ void AsitiktinisPazymiuSuvedimas(Studentas& studentas) {
     cout << "Egzamino ivertinimas - " << studentas.egzaminas << endl;
 }
 
-double NamuDarbuVidurkioSkaiciavimas(Studentas studentas) {
+double Vidurkis(Studentas studentas) {
     double vidurkis =
         accumulate(studentas.namuDarbai.begin(), studentas.namuDarbai.end(), 0.0) / studentas.namuDarbai.size();
     return vidurkis;
 }
 
-double NamuDarbuMedianosSkaiciavimas(Studentas studentas) {
+double Mediana(Studentas studentas) {
     double mediana;
     sort(studentas.namuDarbai.begin(), studentas.namuDarbai.end());
     int vidurinisElementas = studentas.namuDarbai.size() / 2;
@@ -189,10 +189,10 @@ double NamuDarbuMedianosSkaiciavimas(Studentas studentas) {
     return mediana;
 }
 
-double GalutinioSkaiciavimas(Studentas studentas) {
+double Galutinis(Studentas studentas) {
     char skaiciavimoBudas;
-    double vidurkis = NamuDarbuVidurkioSkaiciavimas(studentas);
-    double mediana = NamuDarbuMedianosSkaiciavimas(studentas);
+    double vidurkis = Vidurkis(studentas);
+    double mediana = Mediana(studentas);
     cout << "iveskite atitinkamai 'V'(vidurkis) arba 'M'(mediana) pagal tai kaip norite"
         " kad butu suskaiciuotas galutinis balas - ";
     double galutinis;
@@ -214,13 +214,14 @@ double GalutinioSkaiciavimas(Studentas studentas) {
 }
 
 void SpausdinimasIKonsole(Studentas studentas) {
-    cout << "Rezultatai - " << endl;
+    cout << setw(15) << left << "Vardas" << setw(25) << left << "Pavarde" << setw(15) << left <<
+        "Galutinis balas" << endl;
     cout << fixed;
     cout << setw(15) << left << studentas.vardas << setw(25) << left << studentas.pavarde <<
         setw(25) << left << setprecision(2) << studentas.galutinis << endl;
 }
 
-bool LyginimoOperacija(const Studentas& pirmas, const Studentas& antras) {
+bool Lyginimas(const Studentas& pirmas, const Studentas& antras) {
     return pirmas.pavarde < antras.pavarde;
 }
 
