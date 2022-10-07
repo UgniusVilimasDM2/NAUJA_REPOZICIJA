@@ -1,0 +1,8 @@
+Vardas        Pavarde                 ND1   ND2   ND3   ND4   ND5   ND6   Egz.
+Arvydas       Novikovas               5     8     7     1     4     10    6
+Saulius       Mikoliunas              7     4     10    10    6     8     7
+Rolandas      Baravykas               8     1     1     2     7     9     5
+Linas         Megelaitis              7     4     1     9     9     6     5
+Linas         Klimavicius             8     5     3     8     6     10    10
+Justas        Lasickas                7     9     10    10    9     5     8
+Paulius       Golubickas              8     4     9     6     5     10    7
