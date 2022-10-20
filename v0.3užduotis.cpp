@@ -117,7 +117,7 @@ void SkirstymasIGrupes(int studentuSkaicius, vector<Studentas>& studentai,
 
 void Spausdinimas(int studentuSkaicius, const vector<Studentas>& aukstesniojoLygio,
     const vector<Studentas>& zemesniojoLygio) {
-    string zemesniujuPavadinimas = "Lûzeriai" + to_string(studentuSkaicius) + ".txt";
+    string zemesniujuPavadinimas = "LÃ»zeriai" + to_string(studentuSkaicius) + ".txt";
     ofstream zem(zemesniujuPavadinimas);
     string aukstesniujuPavadinimas = "moksliukai" + to_string(studentuSkaicius) + ".txt";
     ofstream aukst(aukstesniujuPavadinimas);
