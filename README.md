@@ -4,6 +4,11 @@ kaip matome, kad struct užtruko šiek tiek ilgiau negu class
 FOTO REZULTATAS:
 ![image](https://user-images.githubusercontent.com/113584681/205036553-0f9fcbe9-8236-49c8-8f12-a09f21981c91.png)
 
+O1
 
 
+O2
+
+
+O3
 
