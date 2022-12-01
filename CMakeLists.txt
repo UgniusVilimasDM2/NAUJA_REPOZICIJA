@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(v1.0)
+project(v1.1)
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
-add_executable(v1.0 ${SOURCES})
+add_executable(v1.1 ${SOURCES})
