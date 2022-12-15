@@ -1,8 +1,7 @@
-Versija 1.5, kas joje naujo? pagrindinis versijos tikslas buvo sukurti abstrakčią bazinę klasę pavadinimu "zmogus", taip, kad klasė "studentas" būtų išvesta iš tos bazinės klasės. Abstrakti klasė turi 2 apsaugotus kintamuosius (protected variables) "vardas ir pavarde". klasė "zmogus" taip pat turi destruktioriu ir construktoriu bei 2 string tipo funkcijas (getteris vardo ir pavardės).
-
-FOTO REZULTATAS:
-![image](https://user-images.githubusercontent.com/113584681/207857174-53192d19-1958-4aa7-acce-3c9ea3607894.png)
-
+Versija 2.0
+naujoje ersijoje yra įtraukta dokumentacija, sukurtas https://www.doxygen.nl/ internetinio puslapio pagalba.
+tai yra 1.5 versijos dokumentacija.
+failai - 1 headerio failas libaries.h ir 3 cpp failai main.cpp, studentas.cpp, funkcijos.cpp. visi jie yra dokumentuoti ir aprašyti, prie didžiasių kodo dalių, yra padaryti paaiškinimai ką daro tam tikros eilutės.
 
 
 
